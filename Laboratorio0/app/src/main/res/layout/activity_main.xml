@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/txtNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Buscar Nombre Canción"
+        android:inputType="text"
+        android:textAllCaps="false"
+        android:textStyle="italic" />
+
+    <Button
+        android:id="@+id/botonBuscar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/holo_green_light"
+        android:text="Buscar"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@android:color/darker_gray"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/botonAscendente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ascendente"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/botonDescendente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descendente"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/ListView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:divider="@android:color/white"
+        android:dividerHeight="8px" />
+
+</LinearLayout>
+
