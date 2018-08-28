@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<HashMap<String, String>> listItems = new ArrayList<>();
     List<HashMap<String, String>> listItems2 = new ArrayList<>();
     List<HashMap<String, String>> listItems3 = new ArrayList<>();
+    List<HashMap<String, String>> listItemsVista = new ArrayList<>();
     HashMap<String, String> playlist = new HashMap<String, String>();
 
     Button buscar, ascendente, descendente, agregar;
@@ -62,20 +63,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         descendente.setOnClickListener(this);
         agregar.setOnClickListener(this);
 
-        playlist.put("Arabella", "3:43");
-        playlist.put("Snap out of it", "2:50");
-        playlist.put("R U mind", "4:22");
-        playlist.put("Mardy bum", "2:58");
-        playlist.put("Sparkle", "4:15");
-        playlist.put("Stairway to heaven", "8:15");
-        playlist.put("Crazy", "6:20");
-        playlist.put("Sit down cause i moved your chair", "4:32");
-        playlist.put("The bad things", "2:41");
-        playlist.put("Knee Socks", "4:47");
-        playlist.put("One for the road", "5:20");
-        playlist.put("I want it all", "3:52");
-        playlist.put("Fireside", "3:31");
-        playlist.put("Zombie", "4:27");
+        playlist.put("Arabella".toUpperCase(), "3:43");
+        playlist.put("Snap out of it".toUpperCase(), "2:50");
+        playlist.put("R U mind".toUpperCase(), "4:22");
+        playlist.put("Mardy bum".toUpperCase(), "2:58");
+        playlist.put("Sparkle".toUpperCase(), "4:15");
+        playlist.put("Stairway to heaven".toUpperCase(), "8:15");
+        playlist.put("Crazy".toUpperCase(), "6:20");
+        playlist.put("Sit down cause i moved your chair".toUpperCase(), "4:32");
+        playlist.put("The bad things".toUpperCase(), "2:41");
+        playlist.put("Knee Socks".toUpperCase(), "4:47");
+        playlist.put("One for the road".toUpperCase(), "5:20");
+        playlist.put("I want it all".toUpperCase(), "3:52");
+        playlist.put("Fireside".toUpperCase(), "3:31");
+        playlist.put("Zombie".toUpperCase(), "4:27");
 
         TreeMap<String,String> treeMap = new TreeMap<String,String>(playlist);
         for(Map.Entry<String,String>entry:treeMap.entrySet()){
@@ -166,16 +167,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (playlist.containsKey(StringNombreCancion) == true) {
                         txtView.setText(StringNombreCancion + " ya existe en tu Playlist");
                     } else {
-                        playlist.put(StringNombreCancion, StringDuracionCancion);
+                        playlist.put(StringNombreCancion.toUpperCase(), StringDuracionCancion);
                         txtView.setText(StringNombreCancion + " se ha agregado a tu Playlist");
-                        SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item, new String[]{"First Line", "Second Line"}, new int[]{R.id.text1, R.id.texto2});
+                        listItemsVista.clear();
+                        TreeMap<String,String> treeMapList = new TreeMap<String,String>(playlist);
+                        for(Map.Entry<String,String>entry:treeMapList.entrySet()){
+                        }
+                        SimpleAdapter adapter = new SimpleAdapter(this, listItemsVista, R.layout.list_item, new String[]{"First Line", "Second Line"}, new int[]{R.id.text1, R.id.texto2});
                         Iterator it = playlist.entrySet().iterator();
                         while (it.hasNext()) {
                             HashMap<String, String> resultMap = new HashMap<>();
                             Map.Entry pair = (Map.Entry) it.next();
                             resultMap.put("First Line", pair.getKey().toString());
                             resultMap.put("Second Line", pair.getValue().toString());
-                            listItems.add(resultMap);
+                            listItemsVista.add(resultMap);
+                            agregarNombre.getText().clear();agregarNombre.setText("");
+                            agregarDuracion.getText().clear();agregarDuracion.setText("");
                         }
                         mostrarLista.setAdapter(adapter);
                     }
