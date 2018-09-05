@@ -2,6 +2,8 @@ package com.example.charlie_pc.laboratorio0;
 
 public class Cancion {
 
+    //Clase cancion que contienen 4 variables las cuales serviran para ordenar de una manera eficiente la playlist del usuario.
+
     String nombre , duracion, artista, album;
 
     public Cancion(String Nombre, String Artista, String Duracion, String Album) {

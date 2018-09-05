@@ -21,12 +21,13 @@ import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //Declaracion de variables
    private HashMap<String,String> ListaCanciones2 = new HashMap<String, String>();
    private List<Cancion>ListaCanciones = new ArrayList<Cancion>();
    private List<String>ListaNombres = new ArrayList<String>();
    private List<HashMap<String,String>> listItems = new ArrayList<HashMap<String,String>>();
 
-
+   //Declaracion de variables de objetos
    private PlaylistAdapter adapterPlaylist;
    private ListView mostrarBiblioteca, mostrarPlaylist;
    private Button buscar, ascendente, descendente, agregar;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         descendente.setOnClickListener(this);
         agregar.setOnClickListener(this);
 
+        //Llenar la biblioteca de canciones que estaran disponibles para el usuario.
         ListaCanciones2.put("Beat it","Michael Jackson - 5:57 -Thriller ");
         ListaCanciones2.put("Hard as a rock","AC/DC - 4:31 - Ballbreacker");
         ListaCanciones2.put("Crazy", "Aerosmith - 6:31 - Get a grip");
@@ -70,9 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ListaCanciones2.put("Faded","Alan walker - 3:32 - Faded");
         ListaCanciones2.put("Heart upon my sleeve","Avicii - 4:43 - True");
 
+
+        //Metodo para imprimir diccionario en la listview.
         TreeMap<String,String> treeMap = new TreeMap<String,String>(ListaCanciones2);
         for(Map.Entry<String,String>entry:treeMap.entrySet()){}
-
         SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item2, new String[]{"First Line", "Second Line"}, new int[]{R.id.key, R.id.value});
         Iterator iterador = treeMap.entrySet().iterator();
         while (iterador.hasNext()) {
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
         @Override
+        //switch para los eventos de los botones.
     public void onClick(View v) {
 
         switch (v.getId()) {

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
+//Clase adaptador la cual tiene como funcionalidad imprimir la playlist del usuario en la listview
 public class PlaylistAdapter extends BaseAdapter {
 
     private Context mContext;

@@ -1,3 +1,4 @@
 <resources>
+    //Aqui se nombra la aplicación
     <string name="app_name">Laboratorio0</string>
 </resources>
