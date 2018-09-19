@@ -23,9 +23,10 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView ruta;
+
     private String TAG;
     public String rut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +35,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        if(!new File("/storage/emulated/0/Documents/MisCompresiones").exists()) {
             if (isExternalStorageWritable()) {
                 String nombreDirectorioPublico = "MisCompresiones";
                 crearDirectorioPublico(nombreDirectorioPublico);
             }
-        }
 
-
-        if(!new File("/storage/emulated/0/Documents/MisArchivos").exists()) {
             if (isExternalStorageWritable()) {
                 String nombreDirectorioPublico = "MisArchivos";
                 crearDirectorioPublico(nombreDirectorioPublico);
             }
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +125,7 @@ public class MainActivity extends AppCompatActivity
     }
     public File crearDirectorioPublico(String nombreDirectorio) {
         //Crear directorio público en la carpeta Pictures.
-        File directorio = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), nombreDirectorio);
+        File directorio = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), nombreDirectorio);
         rut = directorio.toString();
         //Muestro un mensaje en el logcat si no se creo la carpeta por algun motivo
         if (!directorio.mkdirs())

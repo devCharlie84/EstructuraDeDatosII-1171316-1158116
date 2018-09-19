@@ -7,9 +7,6 @@ public class ArbolHuffman implements Comparable<ArbolHuffman> {
     private final int frecuencia;
     private final ArbolHuffman izquierdo, derecho;
 
-    /**
-     * Constructor.
-     */
     public ArbolHuffman(char simbolo, int frecuencia, ArbolHuffman izquierdo, ArbolHuffman derecho) {
         this.simbolo    = simbolo;
         this.frecuencia  = frecuencia;
@@ -21,54 +18,26 @@ public class ArbolHuffman implements Comparable<ArbolHuffman> {
         this('\0',0,null,null);
     }
 
-    /**
-     * Si el árbol actual no contiene subárboles derecho e izquierdo.
-     *
-     * @return true si y solo es un nodo hoja
-     */
     public boolean esHoja() {
         return (izquierdo == null) && (derecho == null);
     }
 
-    /**
-     * Permite comparar árboles de Huffman, según frecuencia de aparición en la trama a codificar.
-     * Necesario para la estructura cola de prioridad donde se albergan los árboles de Huffman
-     * durante su construcción.
-     *
-     * @return >0 si la frecuencia de este árbol(this) es mayor que la del segundo (otro);
-     * 		   =0 si tienen la misma frecuencia;
-     * 		   <0 si si la frecuencia de este árbol(this) es menor que la del segundo (otro);
-     */
     public int compareTo(ArbolHuffman otro) {
         return this.frecuencia - otro.frecuencia;
     }
 
-    // Getters:
-    /**
-     * @return simbolo
-     */
     public char getSimbolo() {
         return simbolo;
     }
 
-    /**
-     * @return frecuencia
-     */
     public int getFrecuencia() {
         return frecuencia;
     }
 
-
-    /**
-     * @return subárbol izquierdo
-     */
     public ArbolHuffman getIzquierdo() {
         return izquierdo;
     }
 
-    /**
-     * @return subárbol derecho
-     */
     public ArbolHuffman getDerecho() {
         return derecho;
     }

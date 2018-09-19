@@ -5,19 +5,16 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/serie1"
+            android:id="@+id/serieI"
             android:icon="@drawable/ic_menu_camera"
             android:title="Serie I" />
         <item
-            android:id="@+id/serie2"
+            android:id="@+id/serieII"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Serie II" />
         <item
-            android:id="@+id/serie3"
+            android:id="@+id/serieIII"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Serie III" />
-
     </group>
-
-
 </menu>

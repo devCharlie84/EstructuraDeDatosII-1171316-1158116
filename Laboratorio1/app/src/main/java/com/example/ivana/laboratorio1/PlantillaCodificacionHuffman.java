@@ -176,15 +176,8 @@ public class PlantillaCodificacionHuffman {
 
         EscritorBinario escritor = new EscritorBinario(filePathOut);
 
-        // Serializar árbol de Huffman para recuperarlo posteriormente en la descompresión.
         serializarArbol(arbol,escritor);
-
-        // Escribir también el número de bytes del mensaje original (sin comprimir).
         escritor.escribirEntero(input.length);
-
-
-        ///////////////////////TAREA1.6///////////////////////
-        // Codificación usando el diccionario de códigos y escritura en el archivo de salida.
 
         for (int i = 0; i < input.length; i++) {
             String codificado = diccionarioCodigos[input[i]];
@@ -199,16 +192,9 @@ public class PlantillaCodificacionHuffman {
             }
 
         }
-        //////////////////////////////////////////////////////
-
         escritor.cerrarFlujo();
     }
 
-
-    /*
-     * Serializar arbol de Huffman para recuperarlo posteriormente en la descompresión. Se
-     * escribe en la parte inicial del archivo de salida.
-     */
     private void serializarArbol(ArbolHuffman arbol, EscritorBinario escritor){
 
         if (arbol.esHoja()) {
@@ -221,23 +207,13 @@ public class PlantillaCodificacionHuffman {
         serializarArbol(arbol.getDerecho(),escritor);
     }
 
-    /*
-     * Se lee el archivo de entrada (filePathIn, a descomprimir) como secuencia de bits
-     * usando LectorBinario, después se descodifica usando el árbol final de Huffman y el resultado
-     * se escribe con la clase EscritorBinario en el archivo de salida (filePathOut, descomprimido).
-     */
     public void descomprimir(String filePathIn, String filePathOut) {
 
         LectorBinario lector = new LectorBinario(filePathIn);
         EscritorBinario escritor = new EscritorBinario(filePathOut);
 
         ArbolHuffman arbol = leerArbol(lector);
-
-        // Númerod e bytes a escribir
         int length = lector.leerEntero();
-
-        ///////////////////////TAREA1.7///////////////////////
-        // Decodificar usando el árbol de Huffman.
 
         for (int i = 0; i < length; i++) {
             ArbolHuffman x = arbol;
@@ -248,8 +224,6 @@ public class PlantillaCodificacionHuffman {
             }
             escritor.escribirPalabra(x.getSimbolo());
         }
-        //////////////////////////////////////////////////////
-
 
         escritor.cerrarFlujo();
         System.out.println("El archivo " + filePathIn + " se ha descomprimido correctamente.");
@@ -267,7 +241,4 @@ public class PlantillaCodificacionHuffman {
             return new ArbolHuffman('\0', -1, leerArbol(lector), leerArbol(lector));
         }
     }
-
-
-
 }
