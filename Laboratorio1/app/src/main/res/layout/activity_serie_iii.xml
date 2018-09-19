@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SerieIII"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/Boton_OpenFileLZW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Buscar archivo de texto" />
+
+    <TextView
+        android:id="@+id/TextView_OpenFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Boton_OpenFile"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_blue_light"
+        android:padding="10dp"
+        android:textColor="@android:color/background_dark" />
+    <TextView
+        android:layout_width="5dp"
+        android:layout_height="5dp" />
+    <TextView
+        android:id="@+id/CompresionLZW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Boton_OpenFile"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_green_light"
+        android:padding="10dp"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:layout_width="5dp"
+        android:layout_height="5dp" />
+
+    <TextView
+        android:id="@+id/Compresion2LZW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Boton_OpenFile"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_red_light"
+        android:padding="10dp"
+        android:textColor="@android:color/background_dark" />
+    <TextView
+        android:layout_width="5dp"
+        android:layout_height="5dp" />
+    <Button
+        android:id="@+id/Boton_DescomprimirLZW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Buscar archivo lzw" />
+
+    <TextView
+        android:id="@+id/TextView_DescomprmirLZW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_blue_light"
+        android:padding="10dp"
+        android:textColor="@android:color/background_dark" />
+    <TextView
+        android:layout_width="5dp"
+        android:layout_height="5dp" />
+    <TextView
+        android:id="@+id/DescompresionLZW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_green_light"
+        android:padding="10dp"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:layout_width="5dp"
+        android:layout_height="5dp" />
+
+    <TextView
+        android:id="@+id/DescompresionLZW2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Boton_OpenFile"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_red_light"
+        android:padding="10dp"
+        android:textColor="@android:color/background_dark" />
+</LinearLayout>
