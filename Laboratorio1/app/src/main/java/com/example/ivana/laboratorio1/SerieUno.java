@@ -28,7 +28,6 @@ import java.io.OutputStreamWriter;
 
 public class SerieUno extends AppCompatActivity {
 
-
     private static final int PERMISSION_REQUEST_STORAGE = 1000;
     private static final int READ_REQUEST_CODE = 42;
     Button boton_OpenFile,boton_Descomprimir;
@@ -36,7 +35,6 @@ public class SerieUno extends AppCompatActivity {
     EditText Texto_Mensaje;
     CheckBox RutaDescarga,RutaImagenes,RutaDCIM;
     private boolean condicion1,condicion2;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,6 @@ public class SerieUno extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
         }
-
         boton_OpenFile = (Button) (findViewById(R.id.Boton_OpenFile));
         boton_Descomprimir = (Button)(findViewById(R.id.Boton_Descomprimir));
         textView_OpenFile = (TextView) (findViewById(R.id.TextView_OpenFile));
@@ -56,7 +53,6 @@ public class SerieUno extends AppCompatActivity {
         RutaDescarga =(CheckBox)(findViewById(R.id.RutaDescargas));
         RutaImagenes = (CheckBox)(findViewById(R.id.RutaDocuments));
         RutaDCIM = (CheckBox) (findViewById(R.id.RutaDCIM));
-
 
         //region Boton comprimir datos
         boton_OpenFile.setOnClickListener(new View.OnClickListener()

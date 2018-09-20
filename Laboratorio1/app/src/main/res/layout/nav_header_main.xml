@@ -29,7 +29,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="351dp"
+        android:layout_width="375dp"
+        android:textSize="11dp"
         android:layout_height="wrap_content"
         android:text="@string/nav_header_subtitle" />
 

@@ -66,7 +66,7 @@ public class SerieII extends AppCompatActivity {
         }
         for(int i =0;i<listaDirectorios.size();i++)
         {
-            ListaCompresiones.add(new MostrarCompresiones("Nombre de Archivo: "+listaDirectorios.get(i),"Nombre Archivo Comprimido: "+listaDirectorios2.get(i)+"\n" +"Ruta Archivo: " + listaDirectorios3.get(i),"Razon de compresion: " + RazonDeCompresion.get(i),"Factor de compresion: " + FactorDeCompresion.get(i),"Porcentaje de reduccion: " + PorcentajeDeReduccion.get(i) +" %"));
+            ListaCompresiones.add(new MostrarCompresiones("Algoritmo de compresion de Huffman: "+"\n"+"Nombre de Archivo: "+listaDirectorios.get(i),"Nombre Archivo Comprimido: "+listaDirectorios2.get(i)+"\n" +"Ruta Archivo: " + listaDirectorios3.get(i),"Razon de compresion: " + RazonDeCompresion.get(i),"Factor de compresion: " + FactorDeCompresion.get(i),"Porcentaje de reduccion: " + PorcentajeDeReduccion.get(i) +" %"));
         }
 
         adapter = new ListAdapter(getApplicationContext(),ListaCompresiones);

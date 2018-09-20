@@ -20,16 +20,13 @@ public class Huffman {
 
     public static String[] processFile(String fileContents,int[] frequency)
     {
-        TreeSet<NodoHF1> arboles     = new TreeSet<NodoHF1>();
-
+        TreeSet<NodoHF1> arboles = new TreeSet<NodoHF1>();
         for (int i=0; i<fileContents.length(); i++)
         {
             char ch = fileContents.charAt(i);
             if(ch != '\n')
                 ++frequency[ch];
-
         }
-
         for (int i=0; i<255; i++)
         {
             if (frequency[i] > 0)
@@ -45,43 +42,40 @@ public class Huffman {
             arboles.remove(tree1);
             NodoHF1 tree2 = (NodoHF1) arboles.first();
             arboles.remove(tree2);
-
             NodoHF1 merged = new NodoHF1(tree1, tree2);
             arboles.add(merged);
         }
-
         if (arboles.size() > 0)
         {
             NodoHF1 theTree = (NodoHF1) arboles.first();
             NodoHF1.printTree(theTree,huffMan);
         }
         else
-            System.out.println("The file didn't contain useful characters.");
+            System.out.println("El archivo no contenia carácteres útiles");
         return(huffMan);
     }
 
 }
 
-class NodoHF1
-        implements Comparable
+class NodoHF1 implements Comparable
 {
-    private int     valor;
-    private char    contenido;
-    private NodoHF1    left;
-    private NodoHF1    right;
+    private int valor;
+    private char contenido;
+    private NodoHF1 left;
+    private NodoHF1 right;
 
     public NodoHF1(char contenido, int valor)
     {
-        this.contenido  = contenido;
-        this.valor    = valor;
+        this.contenido = contenido;
+        this.valor = valor;
     }
 
     public NodoHF1(NodoHF1 left, NodoHF1 right)
     {
-        this.contenido  = (left.contenido < right.contenido) ? left.contenido : right.contenido;
-        this.valor    = left.valor + right.valor;
-        this.left         = left;
-        this.right    = right;
+        this.contenido = (left.contenido < right.contenido) ? left.contenido : right.contenido;
+        this.valor = left.valor + right.valor;
+        this.left = left;
+        this.right = right;
     }
 
     public int compareTo(Object arg)
@@ -112,8 +106,7 @@ class NodoHF1
     }
 }
 
-class NodoHF2
-        implements Comparable
+class NodoHF2 implements Comparable
 {
     private int     valor;
     private String contenido;
@@ -124,7 +117,6 @@ class NodoHF2
     {
         this.contenido  =contenido;
         this.valor    = valor;
-
     }
 
     public NodoHF2(NodoHF2 left, NodoHF2 right)
@@ -133,7 +125,6 @@ class NodoHF2
         {
             this.contenido = left.contenido;
         }
-
         else if (left.contenido.charAt(0) == right.contenido.charAt(0))
         {
             if (left.contenido.charAt(1) < right.contenido.charAt(1))
@@ -158,7 +149,6 @@ class NodoHF2
         else
             return this.valor-other.valor;
     }
-
 
     private void printNodoHF2(String path,String[][] hf)
     {

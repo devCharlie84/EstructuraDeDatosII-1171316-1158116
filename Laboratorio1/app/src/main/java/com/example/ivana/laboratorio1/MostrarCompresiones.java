@@ -4,9 +4,9 @@ public class MostrarCompresiones {
 
     private String NombreArchivo,Ruta,RazonDeCompresion,FactorDeCompresion,PorcentajedeReduccion;
 
+    //constructor
     public MostrarCompresiones(String nombre,String ruta, String razon, String factor,String reduccion)
     {
-
         this.NombreArchivo = nombre;
         this.Ruta = ruta;
         this.RazonDeCompresion = razon;
@@ -29,8 +29,8 @@ public class MostrarCompresiones {
     public String getFactorDeCompresion() {
         return FactorDeCompresion;
     }
-    public String getPorcentajedeReduccion()
-    {
+
+    public String getPorcentajedeReduccion() {
         return PorcentajedeReduccion;
     }
 }

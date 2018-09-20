@@ -13,7 +13,6 @@ public final class LectorBinario {
     private final int EOF = -1;
     private int buffer;
 
-
     private int numBitsOcupados;
 
     public LectorBinario(String pathName){
@@ -25,7 +24,6 @@ public final class LectorBinario {
     }
 
     private void llenarBuffer() {
-
         try {
             buffer = in.read();
             numBitsOcupados = 8;
@@ -41,9 +39,7 @@ public final class LectorBinario {
         return buffer == EOF;
     }
 
-
     public char leerPalabra() {
-
         if (esVacio()) throw new RuntimeException("Leyendo de un flujo de entrada vacio");
         // Caso especial de alineado:
         if (numBitsOcupados == 8) {
@@ -51,19 +47,17 @@ public final class LectorBinario {
             llenarBuffer();
             return (char) (aux & 0xff);
         }
-
         int x = buffer;
         x <<= (8 - numBitsOcupados);
         int oldN = numBitsOcupados;
         llenarBuffer();
-        if (esVacio()) throw new RuntimeException("Reading from empty input stream");
+        if (esVacio()) throw new RuntimeException("Leyendo de un flujo de entrada vacio");
         numBitsOcupados = oldN;
         x |= (buffer >>> numBitsOcupados);
         return (char) (x & 0xff);
     }
 
     public boolean leerBit() {
-
         if (esVacio()) throw new RuntimeException("Leyendo de un flujo de entrada vacio");
         numBitsOcupados--;
         boolean bit = ((buffer >> numBitsOcupados) & 1) == 1;
@@ -73,7 +67,6 @@ public final class LectorBinario {
     }
 
     public int leerEntero() {
-
         int x = 0;
         for (int i = 0; i < 4; i++) {
             char c = leerPalabra();

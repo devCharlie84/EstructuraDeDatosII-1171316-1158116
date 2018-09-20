@@ -22,11 +22,9 @@ public class EscritorBinario {
     private BufferedOutputStream out;
 
     public EscritorBinario(String pathOutputFile){
-
         buffer = 0;
         numBitsOcupados = 0;
         try {
-
             out = new BufferedOutputStream(new FileOutputStream(pathOutputFile));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("La ruta del archivo no es correcta o no existe");
@@ -34,7 +32,6 @@ public class EscritorBinario {
     }
 
     public void escribirBit(boolean bit) {
-
         buffer <<= 1;
         if (bit) buffer |= 1;
         numBitsOcupados ++;
@@ -43,11 +40,9 @@ public class EscritorBinario {
     }
 
     public void escribirPalabra(int palabra) {
-
         palabra &= 0xff;
         if(numBitsOcupados == 0) {
             try {
-
                 out.write(palabra);
             }
             catch (IOException e) {
@@ -62,7 +57,6 @@ public class EscritorBinario {
     }
 
     public void escribirEntero(int entero) {
-
         escribirPalabra(entero >>> 24);
         escribirPalabra(entero >>> 16);
         escribirPalabra(entero >>>  8);
@@ -70,14 +64,12 @@ public class EscritorBinario {
     }
 
     private void vaciarBuffer() {
-
         if (numBitsOcupados == 0)
             return;
         if (numBitsOcupados > 0)
             buffer <<= (8 - numBitsOcupados);
         try {
             out.write(buffer);
-
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -87,10 +79,8 @@ public class EscritorBinario {
     }
 
     public void cerrarFlujo() {
-
         vaciarBuffer();
         try {
-
             out.close();
         }
         catch (IOException e) {
