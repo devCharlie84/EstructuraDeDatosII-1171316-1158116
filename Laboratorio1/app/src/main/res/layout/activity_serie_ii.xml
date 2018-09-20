@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SerieII">
+    tools:context=".SerieII"
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="Mis compresiones"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
     <ListView
+        android:id="@+id/Lista"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@android:color/background_dark"
@@ -14,4 +25,4 @@
         android:dividerHeight="2dp">
 
     </ListView>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

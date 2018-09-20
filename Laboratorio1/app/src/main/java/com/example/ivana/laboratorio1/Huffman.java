@@ -35,7 +35,6 @@ public class Huffman {
             if (frequency[i] > 0)
             {
                 NodoHF1 n = new NodoHF1((char)(i), frequency[i]);
-                //trees.add(n);
                 arboles.add(n);
             }
         }

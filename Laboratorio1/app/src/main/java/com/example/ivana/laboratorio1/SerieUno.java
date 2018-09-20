@@ -35,7 +35,8 @@ public class SerieUno extends AppCompatActivity {
     TextView textView_OpenFile,Compresion,Compresion2;
     EditText Texto_Mensaje;
     CheckBox RutaDescarga,RutaImagenes,RutaDCIM;
-    private String mensajeDecifrado,RutaDescompresion;
+    private boolean condicion1,condicion2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class SerieUno extends AppCompatActivity {
         RutaImagenes = (CheckBox)(findViewById(R.id.RutaDocuments));
         RutaDCIM = (CheckBox) (findViewById(R.id.RutaDCIM));
 
+
         //region Boton comprimir datos
         boton_OpenFile.setOnClickListener(new View.OnClickListener()
         {
@@ -67,128 +69,165 @@ public class SerieUno extends AppCompatActivity {
                 Compresion2.setText("");
                 Texto_Mensaje = (EditText) findViewById(R.id.Texto_Comprimir);
                 String mensaje = Texto_Mensaje.getText().toString();
-                String ruta1 = "/storage/emulated/0/Download/MisArchivos/Test.txt";
-                String ruta2 = "/storage/emulated/0/Download/MisCompresiones/Compresion.huff";
+                String ruta1 = "/storage/emulated/0/Download/MisArchivos/Test(0).txt";
+                String ruta2 = "/storage/emulated/0/Download/MisCompresiones/Compresion(0).huff";
+                String contador = "/storage/emulated/0/Download/Contador.txt";
                 PlantillaCodificacionHuffman huffman = new PlantillaCodificacionHuffman();
 
+                condicion1 = false;
 
-                if (!new File(ruta1).exists()) {
+                //region Validar que marque una opcion
+                if(!RutaDescarga.isChecked() && !RutaImagenes.isChecked() && !RutaDCIM.isChecked())
+                {
+                    textView_OpenFile.setText("Debe de escoger una opcion de ruta de almacenamiento.");
+                    condicion1 =true;
+                }
+                //endregion
+                if(condicion1==false) {
+                    //region Crear Archivos
                     try {
-                        //new File(ruta1).createNewFile();
-                        new File(ruta1).createNewFile();
+                        if (new File(ruta2).exists()) {
+                            int n = Validararchivo(contador);
+                            String ruta3 = ("/storage/emulated/0/Download/MisCompresiones/Compresion(" + n + ").huff");
+                            String rutamensaje = ("/storage/emulated/0/Download/MisArchivos/Test(" + n + ").txt");
+                            new File(rutamensaje).createNewFile();
+                            new File(ruta3).createNewFile();
+                            FileWriter fw = new FileWriter(contador);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            bw.write(n + "");
+                            bw.close();
+
+                            FileWriter fw1 = new FileWriter(rutamensaje);
+                            BufferedWriter bw1 = new BufferedWriter(fw1);
+                            bw1.write(mensaje);
+                            bw1.close();
+                            huffman.comprimir(rutamensaje, ruta3);
+                            Texto_Mensaje.setText("");
+                            Compresion.setText(Leer(ruta3));
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    if (!new File(ruta1).exists()) {
+                        try {
+                            //new File(ruta1).createNewFile();
+                            new File(ruta1).createNewFile();
+                            new File(contador).createNewFile();
+                            new File(ruta2).createNewFile();
+                            FileWriter fw = new FileWriter(contador);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            bw.write("0");
+                            bw.close();
+                            FileWriter fw1 = new FileWriter(ruta1);
+                            BufferedWriter bw1 = new BufferedWriter(fw1);
+                            bw1.write(mensaje);
+                            bw1.close();
+                            huffman.comprimir(ruta1, ruta2);
+                            Compresion.setText(Leer(ruta2));
+                            Texto_Mensaje.setText("");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+//endregion
+
+
+                    //region Crear Archivos en ruta especificado por usuario
+                    try {
+
+                        //region Ruta de descarga
+                        if (RutaDescarga.isChecked()) {
+                            String ruta = "/storage/emulated/0/Download/Compresion.huff";
+                            if (!new File(ruta).exists()) {
+                                try {
+                                    //new File(ruta1).createNewFile();
+                                    new File(ruta).createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            huffman.comprimir(ruta1, ruta);
+                            textView_OpenFile.setText("");
+                            //region Huffman
+                            StringBuffer fileContents = new StringBuffer(mensaje);
+                            int longitud = fileContents.length();
+                            Huffman codificadorJABAJAVL = new Huffman();
+                            String[] huffMan = new String[256];
+                            int[] fuenteUno = new int[256];
+                            huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
+                            String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
+                            String[] parts = mensajeHuffman.split("null");
+                            textView_OpenFile.setText(parts[0]);
+                            //endregion
+                            Compresion2.setText(ruta);
+                            RutaDescarga.toggle();
+                        }
+                        //endregion
+                        //region Ruta Imagenes
+                        if (RutaImagenes.isChecked()) {
+                            String ruta = "/storage/emulated/0/Pictures/Compresion.huff";
+                            if (!new File(ruta).exists()) {
+                                try {
+                                    //new File(ruta1).createNewFile();
+                                    new File(ruta).createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            huffman.comprimir(ruta1, ruta);
+                            textView_OpenFile.setText("");
+                            //region Huffman
+                            StringBuffer fileContents = new StringBuffer(mensaje);
+                            int longitud = fileContents.length();
+                            Huffman codificadorJABAJAVL = new Huffman();
+                            String[] huffMan = new String[256];
+                            int[] fuenteUno = new int[256];
+                            huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
+                            String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
+                            String[] parts = mensajeHuffman.split("null");
+                            textView_OpenFile.setText(parts[0]);
+                            //endregion
+                            Compresion2.setText(ruta);
+                            RutaImagenes.toggle();
+                        }
+                        //endregion
+                        //region Ruta DCIM
+                        if (RutaDCIM.isChecked()) {
+                            String ruta = "/storage/emulated/0/DCIM/Compresion.huff";
+                            if (!new File(ruta).exists()) {
+                                try {
+                                    //new File(ruta1).createNewFile();
+                                    new File(ruta1).createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            huffman.comprimir(ruta1, ruta);
+                            textView_OpenFile.setText("");
+                            //region Huffman
+                            StringBuffer fileContents = new StringBuffer(mensaje);
+                            int longitud = fileContents.length();
+                            Huffman codificadorJABAJAVL = new Huffman();
+                            String[] huffMan = new String[256];
+                            int[] fuenteUno = new int[256];
+                            huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
+                            String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
+                            String[] parts = mensajeHuffman.split("null");
+                            textView_OpenFile.setText(parts[0]);
+                            //endregion
+                            Compresion2.setText(ruta);
+                            RutaDCIM.toggle();
+                        }
+                        //endregion
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //endregion
                 }
-
-                try {
-                    FileWriter fw = new FileWriter(ruta1);
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    bw.write(mensaje);
-                    bw.close();
-                    huffman.comprimir(ruta1,ruta2);
-
-                    //region Validar que marque una opcion
-                    if(!RutaDescarga.isChecked() && !RutaImagenes.isChecked() && !RutaDCIM.isChecked())
-                    {
-                        textView_OpenFile.setText("Debe de escoger una opcion de ruta de almacenamiento.");
-                    }
-                    //endregion
-                    //region Ruta de descarga
-                    if(RutaDescarga.isChecked())
-                    {
-                        String ruta = "/storage/emulated/0/Download/Compresion.huff";
-                        if (!new File(ruta).exists()) {
-                            try {
-                                //new File(ruta1).createNewFile();
-                                new File(ruta).createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        huffman.comprimir(ruta1,ruta);
-                        textView_OpenFile.setText("");
-                        //region Huffman
-                        StringBuffer fileContents = new StringBuffer(mensaje);
-                        int longitud = fileContents.length();
-                        Huffman codificadorJABAJAVL = new Huffman();
-                        String[] huffMan = new String[256];
-                        int[] fuenteUno = new int[256];
-                        huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
-                        String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
-                        String[] parts = mensajeHuffman.split("null");
-                        textView_OpenFile.setText(parts[0]);
-                        //endregion
-                        Compresion2.setText(ruta);
-                        Compresion.setText(Leer(ruta));
-                        RutaDescarga.toggle();
-                    }
-                    //endregion
-                    //region Ruta Imagenes
-                    if(RutaImagenes.isChecked())
-                    {
-                        String ruta = "/storage/emulated/0/Pictures/Compresion.huff";
-                        if (!new File(ruta).exists()) {
-                            try {
-                                //new File(ruta1).createNewFile();
-                                new File(ruta).createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        huffman.comprimir(ruta1,ruta);
-                        textView_OpenFile.setText("");
-                        //region Huffman
-                        StringBuffer fileContents = new StringBuffer(mensaje);
-                        int longitud = fileContents.length();
-                        Huffman codificadorJABAJAVL = new Huffman();
-                        String[] huffMan = new String[256];
-                        int[] fuenteUno = new int[256];
-                        huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
-                        String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
-                        String[] parts = mensajeHuffman.split("null");
-                        textView_OpenFile.setText(parts[0]);
-                        //endregion
-                        Compresion2.setText(ruta);
-                        Compresion.setText(Leer(ruta));
-                        RutaImagenes.toggle();
-                    }
-                    //endregion
-                    //region Ruta DCIM
-                    if(RutaDCIM.isChecked())
-                    {
-                        String ruta = "/storage/emulated/0/DCIM/Compresion.huff";
-                        if (!new File(ruta).exists()) {
-                            try {
-                                //new File(ruta1).createNewFile();
-                                new File(ruta1).createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        huffman.comprimir(ruta1,ruta);
-                        textView_OpenFile.setText("");
-                        //region Huffman
-                        StringBuffer fileContents = new StringBuffer(mensaje);
-                        int longitud = fileContents.length();
-                        Huffman codificadorJABAJAVL = new Huffman();
-                        String[] huffMan = new String[256];
-                        int[] fuenteUno = new int[256];
-                        huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
-                        String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
-                        String[] parts = mensajeHuffman.split("null");
-                        textView_OpenFile.setText(parts[0]);
-                        //endregion
-                        Compresion2.setText(ruta);
-                        Compresion.setText(Leer(ruta));
-                        RutaDCIM.toggle();
-                    }
-                    //endregion
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                condicion1 =false;
             }
         });
 //endregion
@@ -243,21 +282,12 @@ public class SerieUno extends AppCompatActivity {
                 Toast.makeText(this, "" + path, Toast.LENGTH_SHORT).show();
 
                 PlantillaCodificacionHuffman huffman = new PlantillaCodificacionHuffman();
-                String ruta0 = "/storage/emulated/0/Download/MisCompresiones/Descompresion.huff";
+                String ruta0 = "/storage/emulated/0/Download/MisDescompresiones/Descompresion.huff";
+                String contador2 = "/storage/emulated/0/Download/Contador2.txt";
+                String nueva = "/storage/emulated/0/" + path;
+                condicion2 =false;
 
-                if (!new File(ruta0).exists()) {
-                    try {
-                        //new File(ruta2).createNewFile();
-                        new File(ruta0).createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                String nueva = "/storage/emulated/0/"+ path;
-                huffman.descomprimir(nueva,ruta0);
-                textView_OpenFile.setText(nueva);
-                Compresion.setText(Leer(nueva));
-                Compresion2.setText(Leer(ruta0));
+
 
                 //region Validar que marque una opcion
                 if(!RutaDescarga.isChecked() && !RutaImagenes.isChecked() && !RutaDCIM.isChecked())
@@ -266,77 +296,113 @@ public class SerieUno extends AppCompatActivity {
                     Compresion.setText("");
                     Compresion2.setText("");
                     textView_OpenFile.setText("Debe de escoger una opcion de ruta de almacenamiento.");
+                    condicion2=true;
 
                 }
                 //endregion
 
-                //region Ruta Descarga
-                if(RutaDescarga.isChecked())
+                if(condicion2 == false)
                 {
-                    String ruta = "/storage/emulated/0/Download/Descompresion.huff";
-                    if (!new File(ruta).exists()) {
+                    //region Crear Archivo de descompresion
+                    if (new File(ruta0).exists()) {
                         try {
-                            //new File(ruta1).createNewFile();
-                            new File(ruta).createNewFile();
+                            int n = Validararchivo(contador2);
+                            FileWriter fw = new FileWriter(contador2);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            bw.write(n + "");
+                            bw.close();
+                            String ruta1 = "/storage/emulated/0/Download/MisDescompresiones/Descompresion("+ n+").huff";
+                            new File(ruta1).createNewFile();
+                            huffman.descomprimir(nueva, ruta1);
+                            textView_OpenFile.setText(nueva);
+                            Compresion.setText(Leer(nueva));
+                            Compresion2.setText(Leer(ruta1));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                    //region Huffman
-                    //endregion
 
-                    huffman.descomprimir(nueva,ruta);
-                    textView_OpenFile.setText(ruta0);
-                    Compresion.setText(Leer(nueva));
-                    Compresion2.setText(Leer(ruta0));
-                    RutaDCIM.toggle();
-                }
-                //endregion
-                //region Ruta Pictures
-                if(RutaDCIM.isChecked())
-                {
-                    String ruta = "/storage/emulated/0/Pictures/Descompresion.huff";
-                    if (!new File(ruta).exists()) {
+                    if (!new File(ruta0).exists()) {
                         try {
-                            //new File(ruta1).createNewFile();
-                            new File(ruta).createNewFile();
+                            //new File(ruta2).createNewFile();
+                            new File(ruta0).createNewFile();
+                            new File(contador2).createNewFile();
+                            FileWriter fw = new FileWriter(contador2);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            bw.write("0");
+                            bw.close();
+                            huffman.descomprimir(nueva, ruta0);
+                            textView_OpenFile.setText(nueva);
+                            Compresion.setText(Leer(nueva));
+                            Compresion2.setText(Leer(ruta0));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                    //region Huffman
-                    //endregion
+//endregion
+                    //region Ruta Descarga
 
-                    huffman.descomprimir(nueva,ruta);
-                    textView_OpenFile.setText(ruta0);
-                    Compresion.setText(Leer(nueva));
-                    Compresion2.setText(Leer(ruta0));
-                    RutaDCIM.toggle();
-                }
-                //endregion
-                //region Ruta DCIM
-                if(RutaDCIM.isChecked())
-                {
-                    String ruta = "/storage/emulated/0/DCIM/Descompresion.huff";
-                    if (!new File(ruta).exists()) {
-                        try {
-                            //new File(ruta1).createNewFile();
-                            new File(ruta).createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    if (RutaDescarga.isChecked()) {
+                        String ruta = "/storage/emulated/0/Download/Descompresion.huff";
+                        if (!new File(ruta).exists()) {
+                            try {
+                                //new File(ruta1).createNewFile();
+                                new File(ruta).createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
+
+                        //endregion
+
+                        huffman.descomprimir(nueva, ruta);
+                        textView_OpenFile.setText(ruta);
+                        Compresion.setText(Leer(nueva));
+                        RutaDescarga.toggle();
                     }
-                    //region Huffman
                     //endregion
+                    //region Ruta Pictures
+                    if (RutaImagenes.isChecked()) {
+                        String ruta = "/storage/emulated/0/Pictures/Descompresion.huff";
+                        if (!new File(ruta).exists()) {
+                            try {
+                                //new File(ruta1).createNewFile();
+                                new File(ruta).createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        //region Huffman
+                        //endregion
 
-                    huffman.descomprimir(nueva,ruta);
-                    textView_OpenFile.setText(ruta0);
-                    Compresion.setText(Leer(nueva));
-                    Compresion2.setText(Leer(ruta0));
-                    RutaDCIM.toggle();
+                        huffman.descomprimir(nueva, ruta);
+                        textView_OpenFile.setText(ruta);
+                        Compresion.setText(Leer(nueva));
+                        RutaImagenes.toggle();
+                    }
+                    //endregion
+                    //region Ruta DCIM
+                    if (RutaDCIM.isChecked()) {
+                        String ruta = "/storage/emulated/0/DCIM/Descompresion.huff";
+                        if (!new File(ruta).exists()) {
+                            try {
+                                //new File(ruta1).createNewFile();
+                                new File(ruta).createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        //region Huffman
+                        //endregion
+
+                        huffman.descomprimir(nueva, ruta);
+                        textView_OpenFile.setText(ruta);
+                        Compresion.setText(Leer(nueva));
+                        RutaDCIM.toggle();
+                    }
+                    //endregion
                 }
-                //endregion
-
+                condicion2=false;
             }
         }
     }
@@ -371,5 +437,14 @@ public class SerieUno extends AppCompatActivity {
         }
         return textoArchivo;
     }
+
+    public int Validararchivo(String path)
+    {
+        String mensaje = Leer(path);
+        int contador = Integer.parseInt(mensaje);
+        contador++;
+        return contador;
+    }
+
 }
 

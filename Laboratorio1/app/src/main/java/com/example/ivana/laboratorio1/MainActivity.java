@@ -44,6 +44,11 @@ public class MainActivity extends AppCompatActivity
                 String nombreDirectorioPublico = "MisArchivos";
                 crearDirectorioPublico(nombreDirectorioPublico);
             }
+        if (isExternalStorageWritable()) {
+            String nombreDirectorioPublico = "MisDescompresiones";
+            crearDirectorioPublico(nombreDirectorioPublico);
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
