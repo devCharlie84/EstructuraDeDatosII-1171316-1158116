@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +32,10 @@ public class SerieUno extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_STORAGE = 1000;
     private static final int READ_REQUEST_CODE = 42;
     Button boton_OpenFile,boton_Descomprimir;
-    TextView textView_OpenFile,Compresion;
+    TextView textView_OpenFile,Compresion,Compresion2;
     EditText Texto_Mensaje;
-
+    CheckBox RutaDescarga,RutaImagenes,RutaDCIM;
+    private String mensajeDecifrado,RutaDescompresion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,25 +50,25 @@ public class SerieUno extends AppCompatActivity {
         boton_OpenFile = (Button) (findViewById(R.id.Boton_OpenFile));
         boton_Descomprimir = (Button)(findViewById(R.id.Boton_Descomprimir));
         textView_OpenFile = (TextView) (findViewById(R.id.TextView_OpenFile));
+        Compresion = (TextView) (findViewById(R.id.Compresion));
+        Compresion2 = (TextView) (findViewById(R.id.Compresion2));
+        RutaDescarga =(CheckBox)(findViewById(R.id.RutaDescargas));
+        RutaImagenes = (CheckBox)(findViewById(R.id.RutaDocuments));
+        RutaDCIM = (CheckBox) (findViewById(R.id.RutaDCIM));
 
+        //region Boton comprimir datos
         boton_OpenFile.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
 
+                textView_OpenFile.setText("");
+                Compresion.setText("");
+                Compresion2.setText("");
                 Texto_Mensaje = (EditText) findViewById(R.id.Texto_Comprimir);
                 String mensaje = Texto_Mensaje.getText().toString();
-
-                StringBuffer fileContents = new StringBuffer(mensaje);
-                int longitud = fileContents.length();
-                Huffman codificadorJABAJAVL = new Huffman();
-                //256 = ASCII code
-                String[] huffMan = new String[256];
-                int[] fuenteUno = new int[256];
-                huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
-                String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
                 String ruta1 = "/storage/emulated/0/Download/MisArchivos/Test.txt";
-                String ruta2 = "/storage/emulated/0/Download/MisCompresiones/Compresion.txt";
+                String ruta2 = "/storage/emulated/0/Download/MisCompresiones/Compresion.huff";
                 PlantillaCodificacionHuffman huffman = new PlantillaCodificacionHuffman();
 
 
@@ -85,30 +87,122 @@ public class SerieUno extends AppCompatActivity {
                     bw.write(mensaje);
                     bw.close();
                     huffman.comprimir(ruta1,ruta2);
+
+                    //region Validar que marque una opcion
+                    if(!RutaDescarga.isChecked() && !RutaImagenes.isChecked() && !RutaDCIM.isChecked())
+                    {
+                        textView_OpenFile.setText("Debe de escoger una opcion de ruta de almacenamiento.");
+                    }
+                    //endregion
+                    //region Ruta de descarga
+                    if(RutaDescarga.isChecked())
+                    {
+                        String ruta = "/storage/emulated/0/Download/Compresion.huff";
+                        if (!new File(ruta).exists()) {
+                            try {
+                                //new File(ruta1).createNewFile();
+                                new File(ruta).createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        huffman.comprimir(ruta1,ruta);
+                        textView_OpenFile.setText("");
+                        //region Huffman
+                        StringBuffer fileContents = new StringBuffer(mensaje);
+                        int longitud = fileContents.length();
+                        Huffman codificadorJABAJAVL = new Huffman();
+                        String[] huffMan = new String[256];
+                        int[] fuenteUno = new int[256];
+                        huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
+                        String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
+                        String[] parts = mensajeHuffman.split("null");
+                        textView_OpenFile.setText(parts[0]);
+                        //endregion
+                        Compresion2.setText(ruta);
+                        Compresion.setText(Leer(ruta));
+                        RutaDescarga.toggle();
+                    }
+                    //endregion
+                    //region Ruta Imagenes
+                    if(RutaImagenes.isChecked())
+                    {
+                        String ruta = "/storage/emulated/0/Pictures/Compresion.huff";
+                        if (!new File(ruta).exists()) {
+                            try {
+                                //new File(ruta1).createNewFile();
+                                new File(ruta).createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        huffman.comprimir(ruta1,ruta);
+                        textView_OpenFile.setText("");
+                        //region Huffman
+                        StringBuffer fileContents = new StringBuffer(mensaje);
+                        int longitud = fileContents.length();
+                        Huffman codificadorJABAJAVL = new Huffman();
+                        String[] huffMan = new String[256];
+                        int[] fuenteUno = new int[256];
+                        huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
+                        String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
+                        String[] parts = mensajeHuffman.split("null");
+                        textView_OpenFile.setText(parts[0]);
+                        //endregion
+                        Compresion2.setText(ruta);
+                        Compresion.setText(Leer(ruta));
+                        RutaImagenes.toggle();
+                    }
+                    //endregion
+                    //region Ruta DCIM
+                    if(RutaDCIM.isChecked())
+                    {
+                        String ruta = "/storage/emulated/0/DCIM/Compresion.huff";
+                        if (!new File(ruta).exists()) {
+                            try {
+                                //new File(ruta1).createNewFile();
+                                new File(ruta1).createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        huffman.comprimir(ruta1,ruta);
+                        textView_OpenFile.setText("");
+                        //region Huffman
+                        StringBuffer fileContents = new StringBuffer(mensaje);
+                        int longitud = fileContents.length();
+                        Huffman codificadorJABAJAVL = new Huffman();
+                        String[] huffMan = new String[256];
+                        int[] fuenteUno = new int[256];
+                        huffMan = codificadorJABAJAVL.processFile(fileContents.toString(), fuenteUno);
+                        String mensajeHuffman = codificadorJABAJAVL.crearMensajeHuffman1(fileContents);
+                        String[] parts = mensajeHuffman.split("null");
+                        textView_OpenFile.setText(parts[0]);
+                        //endregion
+                        Compresion2.setText(ruta);
+                        Compresion.setText(Leer(ruta));
+                        RutaDCIM.toggle();
+                    }
+                    //endregion
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+//endregion
 
         boton_Descomprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textView_OpenFile.setText("");
+                Compresion.setText("");
+                Compresion2.setText("");
                 performFileSearch();
             }
         });
     }
-
-
-    //seleccionar el File del Storage
-    //para archivos .huff
-    private void performFileSearch2() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        startActivityForResult(intent, READ_REQUEST_CODE);
-    }
-
     //seleccionar el File del Storage
     //para el archivo a comprimir .txt
     private void performFileSearch() {
@@ -147,7 +241,102 @@ public class SerieUno extends AppCompatActivity {
                     path = path.substring(path.indexOf("0") + 1);
                 }
                 Toast.makeText(this, "" + path, Toast.LENGTH_SHORT).show();
-                textView_OpenFile.setText(leerTextFile(path));
+
+                PlantillaCodificacionHuffman huffman = new PlantillaCodificacionHuffman();
+                String ruta0 = "/storage/emulated/0/Download/MisCompresiones/Descompresion.huff";
+
+                if (!new File(ruta0).exists()) {
+                    try {
+                        //new File(ruta2).createNewFile();
+                        new File(ruta0).createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String nueva = "/storage/emulated/0/"+ path;
+                huffman.descomprimir(nueva,ruta0);
+                textView_OpenFile.setText(nueva);
+                Compresion.setText(Leer(nueva));
+                Compresion2.setText(Leer(ruta0));
+
+                //region Validar que marque una opcion
+                if(!RutaDescarga.isChecked() && !RutaImagenes.isChecked() && !RutaDCIM.isChecked())
+                {
+                    textView_OpenFile.setText("");
+                    Compresion.setText("");
+                    Compresion2.setText("");
+                    textView_OpenFile.setText("Debe de escoger una opcion de ruta de almacenamiento.");
+
+                }
+                //endregion
+
+                //region Ruta Descarga
+                if(RutaDescarga.isChecked())
+                {
+                    String ruta = "/storage/emulated/0/Download/Descompresion.huff";
+                    if (!new File(ruta).exists()) {
+                        try {
+                            //new File(ruta1).createNewFile();
+                            new File(ruta).createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //region Huffman
+                    //endregion
+
+                    huffman.descomprimir(nueva,ruta);
+                    textView_OpenFile.setText(ruta0);
+                    Compresion.setText(Leer(nueva));
+                    Compresion2.setText(Leer(ruta0));
+                    RutaDCIM.toggle();
+                }
+                //endregion
+                //region Ruta Pictures
+                if(RutaDCIM.isChecked())
+                {
+                    String ruta = "/storage/emulated/0/Pictures/Descompresion.huff";
+                    if (!new File(ruta).exists()) {
+                        try {
+                            //new File(ruta1).createNewFile();
+                            new File(ruta).createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //region Huffman
+                    //endregion
+
+                    huffman.descomprimir(nueva,ruta);
+                    textView_OpenFile.setText(ruta0);
+                    Compresion.setText(Leer(nueva));
+                    Compresion2.setText(Leer(ruta0));
+                    RutaDCIM.toggle();
+                }
+                //endregion
+                //region Ruta DCIM
+                if(RutaDCIM.isChecked())
+                {
+                    String ruta = "/storage/emulated/0/DCIM/Descompresion.huff";
+                    if (!new File(ruta).exists()) {
+                        try {
+                            //new File(ruta1).createNewFile();
+                            new File(ruta).createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //region Huffman
+                    //endregion
+
+                    huffman.descomprimir(nueva,ruta);
+                    textView_OpenFile.setText(ruta0);
+                    Compresion.setText(Leer(nueva));
+                    Compresion2.setText(Leer(ruta0));
+                    RutaDCIM.toggle();
+                }
+                //endregion
+
             }
         }
     }
@@ -161,6 +350,26 @@ public class SerieUno extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    public String Leer(String archivo)
+    {
+        String textoArchivo = "";
+        try
+        {
+            String cadenaArchivo;
+            String temp="";
+            FileReader filereader = new FileReader(archivo);
+            BufferedReader bufferedreader = new BufferedReader(filereader);
+            while((cadenaArchivo = bufferedreader.readLine())!=null) {
+                temp = temp + cadenaArchivo;
+            }
+            bufferedreader.close();
+            textoArchivo = temp;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return textoArchivo;
     }
 }
 
