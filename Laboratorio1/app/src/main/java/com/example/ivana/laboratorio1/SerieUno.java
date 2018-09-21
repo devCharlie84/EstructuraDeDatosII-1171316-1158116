@@ -532,7 +532,7 @@ public class SerieUno extends AppCompatActivity {
                             if (RutaDescarga.isChecked())
                             {
                                 String ruta = "/storage/emulated/0/Download/CompresionArchivoTxt.huff";
-                                String contador1 = "/storage/emulated/0/Music/Contador1.txt";
+                                String contador1 = "/storage/emulated/0/Documents/Contador1.txt";
 
                                 if(new File(ruta).exists())
                                 {
@@ -573,7 +573,7 @@ public class SerieUno extends AppCompatActivity {
                         if (RutaImagenes.isChecked())
                         {
                             String ruta = "/storage/emulated/0/Pictures/CompresionArchivoTxt.huff";
-                            String contador1 = "/storage/emulated/0/Music/Contador2.txt";
+                            String contador1 = "/storage/emulated/0/Documents/Contador2.txt";
                             try {
                                 if (new File(ruta).exists()) {
                                     String rutaArchivo = "/storage/emulated/0/" + path;
@@ -612,7 +612,7 @@ public class SerieUno extends AppCompatActivity {
                         if (RutaDCIM.isChecked())
                         {
                             String ruta = "/storage/emulated/0/DCIM/CompresionArchivoTxt.huff";
-                            String contador1 = "/storage/emulated/0/Music/Contador3.txt";
+                            String contador1 = "/storage/emulated/0/Documents/Contador3.txt";
                             try {
                                 if (new File(ruta).exists()) {
                                     String rutaArchivo = "/storage/emulated/0/" + path;
@@ -716,7 +716,7 @@ public class SerieUno extends AppCompatActivity {
 
                         if (RutaDescarga.isChecked()) {
                             String ruta = "/storage/emulated/0/Download/DescompresionArchivosTxt.huff";
-                            String contador1 = "/storage/emulated/0/Alarms/Contador1.txt";
+                            String contador1 = "/storage/emulated/0/Documents/Contador4.txt";
                             String rutaArchivo = "/storage/emulated/0/" + path;
                             try {
                                 if (new File(ruta).exists()) {
@@ -755,7 +755,7 @@ public class SerieUno extends AppCompatActivity {
                         if (RutaImagenes.isChecked())
                         {
                             String ruta = "/storage/emulated/0/Pictures/DescompresionArchivosTxt.huff";
-                            String contador1 = "/storage/emulated/0/Alarms/Contador2.txt";
+                            String contador1 = "/storage/emulated/0/Documents/Contador5.txt";
                             String rutaArchivo = "/storage/emulated/0/" + path;
                             try {
                                 if(new File(ruta).exists())
@@ -798,7 +798,7 @@ public class SerieUno extends AppCompatActivity {
                         if (RutaDCIM.isChecked())
                         {
                             String ruta = "/storage/emulated/0/DCIM/DescompresionArchivosTxt.huff";
-                            String contador1 = "/storage/emulated/0/Alarms/Contador3.txt";
+                            String contador1 = "/storage/emulated/0/Documents/Contador3.txt";
                             String rutaArchivo = "/storage/emulated/0/" + path;
                             try {
                                 if(new File(ruta).exists())
