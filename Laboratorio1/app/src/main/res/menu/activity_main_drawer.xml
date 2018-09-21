@@ -8,14 +8,14 @@
         <item
             android:id="@+id/serieI"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Serie I (Algortimo Huffman)" />
+            android:title="Serie I (Huffman)" />
         <item
             android:id="@+id/serieII"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Serie II (Mis compresiones)" />
+            android:title="Serie II (Compresiones)" />
         <item
             android:id="@+id/serieIII"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Serie III (Algortimo LZW )" />
+            android:title="Serie III (LZW)" />
     </group>
 </menu>
